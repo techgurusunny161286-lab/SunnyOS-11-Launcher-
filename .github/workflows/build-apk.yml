@@ -1,0 +1,127 @@
+Build APK from Google AI Studio Android App on Phone
+Thank you for watching this N-Educate tutorial.
+
+In this video, you will learn how to build an APK from a Google AI Studio Android app using only your phone, GitHub, Google Jules, and GitHub Actions.
+
+We will publish the app project to GitHub, give Jules permission to prepare the APK build, and then download the completed APK from the GitHub Actions artifacts.
+
+For additional help with building or publishing your Android app, you can join our Skool community through the link in the video description.
+
+____________________________________________________________________________
+
+Prompt for Google Jules To Build APK
+
+____________________________________________________________________________
+
+Prompt Start Here:
+
+—----------------------
+
+Inspect this entire repository and prepare the Android application so that GitHub Actions can automatically build a downloadable debug APK.
+
+This repository was created from a Google AI Studio Android app. Do not assume the location or structure of the Android project. First inspect the repository and identify:
+
+The Android project root
+The application module
+The Gradle wrapper
+The Android Gradle Plugin version
+The required Java version
+The correct Gradle task for building the APK
+Main task
+Create a GitHub Actions workflow at:
+
+.github/workflows/build-apk.yml
+
+The workflow must:
+
+Run when manually started with workflow_dispatch.
+Also run when changes are pushed to the main branch.
+Check out the repository.
+Set up the Java version compatible with this Android project.
+Give the Gradle wrapper permission to run.
+Remove stale project-level Gradle and application build caches that could cause corrupted or inconsistent builds.
+Build a debug APK using the repository’s existing Gradle wrapper.
+Locate the generated APK automatically.
+Verify that at least one valid APK file was generated.
+Upload the APK using actions/upload-artifact@v4.
+Name the downloadable GitHub Actions artifact android-app-debug-apk.
+Fail with a clear error message when the Android project, Gradle wrapper, application module, or generated APK cannot be found.
+Project structure requirements
+The Android project may be located:
+
+In the repository root
+Inside an android folder
+Inside an android-app folder
+Inside another subfolder
+Detect the correct location instead of assuming one.
+
+Run Gradle commands from the directory containing the correct gradlew file.
+
+Use the build task appropriate for the existing application module. Prefer the equivalent of:
+
+./gradlew assembleDebug --stacktrace --no-daemon
+
+Do not use a globally installed version of Gradle when the repository includes a Gradle wrapper.
+
+Cache cleanup
+Before building, remove only generated project caches and build outputs that are safe to recreate, such as:
+
+The Android project’s .gradle directory
+The application module’s build directory
+Do not delete source code, configuration files, Gradle wrapper files, signing files, or application assets.
+
+APK artifact requirements
+Search the relevant module build output for generated debug APK files.
+
+Upload only APK files. Do not upload the complete repository, source code, temporary files, Gradle caches, or unrelated build folders.
+
+Configure the artifact upload to report an error if no APK is found.
+
+Application safety requirements
+Do not redesign, rewrite, or replace the application.
+
+Do not change:
+
+The application name
+The package name or application ID
+The version code
+The version name
+The app’s features
+The user interface
+The app icon
+The permissions
+The SDK versions
+The existing dependencies
+The existing source code
+Only make changes required to build the existing application successfully and provide the APK through GitHub Actions.
+
+Do not add advertising, analytics, tracking, authentication, payment features, or external services.
+
+This task requires a debug APK, so do not require a release keystore or GitHub signing secrets.
+
+Validation
+Before completing the task:
+
+Review the workflow syntax.
+Confirm that all referenced paths match the actual repository structure.
+Run the appropriate Gradle APK build if the environment permits it.
+Fix any build errors directly caused by project configuration or workflow setup.
+Confirm the expected APK output path.
+Confirm that the artifact upload step includes the generated APK.
+Ensure the workflow can be manually started from the GitHub Actions page.
+If the project already contains an APK workflow, inspect it and improve or replace it only when necessary. Avoid creating duplicate workflows that perform the same job.
+
+Final delivery
+Make the required changes in a new branch and prepare a pull request.
+
+In the final response, clearly state:
+
+The Android project directory detected
+The application module detected
+The Java version selected
+The Gradle build command used
+The expected APK output location
+The GitHub Actions workflow created or updated
+The name of the downloadable artifact
+Any project problems that had to be repaired
+Keep the solution universal, reliable, and suitable for users completing the entire process from a mobile phone.
